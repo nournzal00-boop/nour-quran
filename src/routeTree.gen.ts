@@ -9,38 +9,164 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SebhaRouteImport } from './routes/sebha'
+import { Route as QuranRouteImport } from './routes/quran'
+import { Route as QiblaRouteImport } from './routes/qibla'
+import { Route as PrayerTimesRouteImport } from './routes/prayer-times'
+import { Route as AthkarRouteImport } from './routes/athkar'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as QuranIndexRouteImport } from './routes/quran.index'
+import { Route as QuranSurahRouteImport } from './routes/quran.$surah'
 
+const SebhaRoute = SebhaRouteImport.update({
+  id: '/sebha',
+  path: '/sebha',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuranRoute = QuranRouteImport.update({
+  id: '/quran',
+  path: '/quran',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QiblaRoute = QiblaRouteImport.update({
+  id: '/qibla',
+  path: '/qibla',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrayerTimesRoute = PrayerTimesRouteImport.update({
+  id: '/prayer-times',
+  path: '/prayer-times',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AthkarRoute = AthkarRouteImport.update({
+  id: '/athkar',
+  path: '/athkar',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const QuranIndexRoute = QuranIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => QuranRoute,
+} as any)
+const QuranSurahRoute = QuranSurahRouteImport.update({
+  id: '/$surah',
+  path: '/$surah',
+  getParentRoute: () => QuranRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/athkar': typeof AthkarRoute
+  '/prayer-times': typeof PrayerTimesRoute
+  '/qibla': typeof QiblaRoute
+  '/quran': typeof QuranRouteWithChildren
+  '/sebha': typeof SebhaRoute
+  '/quran/$surah': typeof QuranSurahRoute
+  '/quran/': typeof QuranIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/athkar': typeof AthkarRoute
+  '/prayer-times': typeof PrayerTimesRoute
+  '/qibla': typeof QiblaRoute
+  '/sebha': typeof SebhaRoute
+  '/quran/$surah': typeof QuranSurahRoute
+  '/quran': typeof QuranIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/athkar': typeof AthkarRoute
+  '/prayer-times': typeof PrayerTimesRoute
+  '/qibla': typeof QiblaRoute
+  '/quran': typeof QuranRouteWithChildren
+  '/sebha': typeof SebhaRoute
+  '/quran/$surah': typeof QuranSurahRoute
+  '/quran/': typeof QuranIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/athkar'
+    | '/prayer-times'
+    | '/qibla'
+    | '/quran'
+    | '/sebha'
+    | '/quran/$surah'
+    | '/quran/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/athkar'
+    | '/prayer-times'
+    | '/qibla'
+    | '/sebha'
+    | '/quran/$surah'
+    | '/quran'
+  id:
+    | '__root__'
+    | '/'
+    | '/athkar'
+    | '/prayer-times'
+    | '/qibla'
+    | '/quran'
+    | '/sebha'
+    | '/quran/$surah'
+    | '/quran/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AthkarRoute: typeof AthkarRoute
+  PrayerTimesRoute: typeof PrayerTimesRoute
+  QiblaRoute: typeof QiblaRoute
+  QuranRoute: typeof QuranRouteWithChildren
+  SebhaRoute: typeof SebhaRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sebha': {
+      id: '/sebha'
+      path: '/sebha'
+      fullPath: '/sebha'
+      preLoaderRoute: typeof SebhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quran': {
+      id: '/quran'
+      path: '/quran'
+      fullPath: '/quran'
+      preLoaderRoute: typeof QuranRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/qibla': {
+      id: '/qibla'
+      path: '/qibla'
+      fullPath: '/qibla'
+      preLoaderRoute: typeof QiblaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prayer-times': {
+      id: '/prayer-times'
+      path: '/prayer-times'
+      fullPath: '/prayer-times'
+      preLoaderRoute: typeof PrayerTimesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/athkar': {
+      id: '/athkar'
+      path: '/athkar'
+      fullPath: '/athkar'
+      preLoaderRoute: typeof AthkarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +174,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/quran/': {
+      id: '/quran/'
+      path: '/'
+      fullPath: '/quran/'
+      preLoaderRoute: typeof QuranIndexRouteImport
+      parentRoute: typeof QuranRoute
+    }
+    '/quran/$surah': {
+      id: '/quran/$surah'
+      path: '/$surah'
+      fullPath: '/quran/$surah'
+      preLoaderRoute: typeof QuranSurahRouteImport
+      parentRoute: typeof QuranRoute
+    }
   }
 }
 
+interface QuranRouteChildren {
+  QuranSurahRoute: typeof QuranSurahRoute
+  QuranIndexRoute: typeof QuranIndexRoute
+}
+
+const QuranRouteChildren: QuranRouteChildren = {
+  QuranSurahRoute: QuranSurahRoute,
+  QuranIndexRoute: QuranIndexRoute,
+}
+
+const QuranRouteWithChildren = QuranRoute._addFileChildren(QuranRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AthkarRoute: AthkarRoute,
+  PrayerTimesRoute: PrayerTimesRoute,
+  QiblaRoute: QiblaRoute,
+  QuranRoute: QuranRouteWithChildren,
+  SebhaRoute: SebhaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
