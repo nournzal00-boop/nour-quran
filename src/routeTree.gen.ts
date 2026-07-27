@@ -19,6 +19,7 @@ import { Route as AthkarRouteImport } from './routes/athkar'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuranIndexRouteImport } from './routes/quran.index'
 import { Route as QuranSurahRouteImport } from './routes/quran.$surah'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SebhaRoute = SebhaRouteImport.update({
   id: '/sebha',
@@ -70,6 +71,11 @@ const QuranSurahRoute = QuranSurahRouteImport.update({
   path: '/$surah',
   getParentRoute: () => QuranRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/qibla': typeof QiblaRoute
   '/quran': typeof QuranRouteWithChildren
   '/sebha': typeof SebhaRoute
+  '/api/chat': typeof ApiChatRoute
   '/quran/$surah': typeof QuranSurahRoute
   '/quran/': typeof QuranIndexRoute
 }
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/prayer-times': typeof PrayerTimesRoute
   '/qibla': typeof QiblaRoute
   '/sebha': typeof SebhaRoute
+  '/api/chat': typeof ApiChatRoute
   '/quran/$surah': typeof QuranSurahRoute
   '/quran': typeof QuranIndexRoute
 }
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/qibla': typeof QiblaRoute
   '/quran': typeof QuranRouteWithChildren
   '/sebha': typeof SebhaRoute
+  '/api/chat': typeof ApiChatRoute
   '/quran/$surah': typeof QuranSurahRoute
   '/quran/': typeof QuranIndexRoute
 }
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/qibla'
     | '/quran'
     | '/sebha'
+    | '/api/chat'
     | '/quran/$surah'
     | '/quran/'
   fileRoutesByTo: FileRoutesByTo
@@ -129,6 +139,7 @@ export interface FileRouteTypes {
     | '/prayer-times'
     | '/qibla'
     | '/sebha'
+    | '/api/chat'
     | '/quran/$surah'
     | '/quran'
   id:
@@ -141,6 +152,7 @@ export interface FileRouteTypes {
     | '/qibla'
     | '/quran'
     | '/sebha'
+    | '/api/chat'
     | '/quran/$surah'
     | '/quran/'
   fileRoutesById: FileRoutesById
@@ -154,6 +166,7 @@ export interface RootRouteChildren {
   QiblaRoute: typeof QiblaRoute
   QuranRoute: typeof QuranRouteWithChildren
   SebhaRoute: typeof SebhaRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -228,6 +241,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuranSurahRouteImport
       parentRoute: typeof QuranRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -252,6 +272,7 @@ const rootRouteChildren: RootRouteChildren = {
   QiblaRoute: QiblaRoute,
   QuranRoute: QuranRouteWithChildren,
   SebhaRoute: SebhaRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

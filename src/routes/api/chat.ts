@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { streamText, type CoreMessage } from "ai";
+import { streamText, type ModelMessage } from "ai";
 import { createLovableAiGatewayProvider } from "@/lib/ai-gateway.server";
 
 const SYSTEM_PROMPT = `أنت "مساعد نور"، مساعد إسلامي علمي يساعد المسلمين على فهم دينهم بلغة عربية فصيحة، واضحة، وهادئة.
