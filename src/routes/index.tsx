@@ -1,7 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { BookOpen, Search, Sparkles, ArrowLeft, Bookmark, Compass, Clock } from "lucide-react";
+import {
+  BookOpen, Search, Sparkles, ArrowLeft, Bookmark, Compass, Clock,
+  Hand, CircleDot, BookMarked,
+} from "lucide-react";
 import { fetchRandomAyah, fetchSurahs } from "@/lib/quran-api";
 
 export const Route = createFileRoute("/")({
@@ -14,11 +17,16 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-interface LastRead {
-  surah: number;
-  ayah: number;
-  name: string;
-}
+interface LastRead { surah: number; ayah: number; name: string }
+
+const QUICK = [
+  { to: "/quran", label: "القرآن الكريم", desc: "114 سورة", icon: BookOpen },
+  { to: "/athkar", label: "الأذكار", desc: "الصباح والمساء", icon: Hand },
+  { to: "/prayer-times", label: "مواقيت الصلاة", desc: "حسب موقعك", icon: Clock },
+  { to: "/sebha", label: "السبحة الإلكترونية", desc: "عدّاد ذكي", icon: CircleDot },
+  { to: "/qibla", label: "اتجاه القبلة", desc: "بوصلة تفاعلية", icon: Compass },
+  { to: "/hadith", label: "الأحاديث النبوية", desc: "مع الشرح", icon: BookMarked },
+] as const;
 
 function Home() {
   const [q, setQ] = useState("");
@@ -40,7 +48,7 @@ function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 opacity-[0.04] bg-[radial-gradient(circle_at_1px_1px,currentColor_1px,transparent_0)] [background-size:24px_24px]" />
-        <div className="mx-auto max-w-4xl px-4 pt-16 pb-12 text-center relative">
+        <div className="mx-auto max-w-4xl px-4 pt-12 md:pt-16 pb-8 text-center relative">
           <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-card/60 px-4 py-1.5 text-xs font-medium text-emerald-deep backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-gold" />
             منصة نور لقراءة القرآن الكريم
@@ -49,6 +57,17 @@ function Home() {
             اقرأ. تدبّر.
             <span className="block bg-gradient-emerald bg-clip-text text-transparent mt-2">اطمئن بذكر الله</span>
           </h1>
+
+          {/* Islamic geometric divider (replaces empty gap) */}
+          <div className="mx-auto mt-6 flex items-center justify-center gap-3 max-w-sm" aria-hidden="true">
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent via-gold/60 to-transparent" />
+            <svg viewBox="0 0 40 40" className="h-6 w-6 text-gold" fill="none" stroke="currentColor" strokeWidth="1.4">
+              <path d="M20 3 L27 12 L37 12 L30 20 L37 28 L27 28 L20 37 L13 28 L3 28 L10 20 L3 12 L13 12 Z" />
+              <circle cx="20" cy="20" r="3" fill="currentColor" opacity="0.7" />
+            </svg>
+            <span className="h-px flex-1 bg-gradient-to-l from-transparent via-gold/60 to-transparent" />
+          </div>
+
           <p className="mt-6 text-base md:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             رفيقك اليومي لقراءة القرآن الكريم بخط عثماني أنيق، مع التفسير الميسّر، وتلاوات لكبار القراء، والأذكار والمواقيت.
           </p>
@@ -56,7 +75,7 @@ function Home() {
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Link
               to="/quran"
-              className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-emerald px-7 py-3.5 text-sm font-bold text-primary-foreground shadow-elegant hover:shadow-gold transition-all hover:-translate-y-0.5"
+              className="group inline-flex items-center gap-2 rounded-2xl bg-gradient-emerald px-7 py-3.5 text-sm font-bold text-[#F3E5AB] shadow-elegant hover:shadow-gold transition-all hover:-translate-y-0.5"
             >
               <BookOpen className="h-4 w-4" />
               ابدأ القراءة
@@ -64,7 +83,7 @@ function Home() {
             </Link>
             <Link
               to="/athkar"
-              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-card/70 backdrop-blur px-6 py-3.5 text-sm font-semibold text-foreground hover:bg-accent transition-all"
+              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-card/80 backdrop-blur px-6 py-3.5 text-sm font-semibold text-foreground hover:bg-accent transition-all"
             >
               أذكار اليوم
             </Link>
@@ -72,13 +91,13 @@ function Home() {
 
           {/* Search */}
           <div className="mx-auto mt-10 max-w-xl relative">
-            <div className="relative">
-              <Search className="absolute right-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-muted-foreground" />
+            <div className="relative group">
+              <Search className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-muted-foreground transition-colors group-focus-within:text-primary" />
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="ابحث عن سورة… (مثال: البقرة أو 2)"
-                className="w-full rounded-2xl border border-border bg-card/80 backdrop-blur px-12 py-4 text-sm text-foreground shadow-soft placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                className="w-full rounded-2xl border border-border bg-card/90 backdrop-blur px-12 py-4 text-sm text-foreground shadow-soft placeholder:text-muted-foreground/80 transition-all focus:outline-none focus:border-gold/60 focus:bg-card focus:shadow-gold focus:ring-4 focus:ring-gold/15"
               />
             </div>
             {results.length > 0 && (
@@ -106,6 +125,34 @@ function Home() {
         </div>
       </section>
 
+      {/* Quick Access Grid */}
+      <section className="mx-auto max-w-5xl px-4 pt-4 pb-10">
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="font-display text-xl md:text-2xl font-bold text-foreground">وصول سريع</h2>
+          <span className="text-xs text-muted-foreground">اختر ما تحتاجه الآن</span>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 md:gap-4">
+          {QUICK.map(({ to, label, desc, icon: Icon }) => (
+            <Link
+              key={to}
+              to={to}
+              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-4 md:p-5 shadow-soft hover:shadow-elegant hover:border-gold/40 transition-all hover:-translate-y-0.5"
+            >
+              <div className="absolute -top-8 -left-8 h-24 w-24 rounded-full bg-gradient-gold opacity-0 group-hover:opacity-10 blur-2xl transition-opacity" />
+              <div className="relative flex items-start gap-3">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-gold/25 to-gold/10 text-gold ring-1 ring-gold/30 shadow-soft">
+                  <Icon className="h-5 w-5" strokeWidth={2.25} />
+                </div>
+                <div className="min-w-0">
+                  <div className="font-display text-base md:text-lg font-bold text-foreground leading-tight">{label}</div>
+                  <div className="text-[11px] md:text-xs text-muted-foreground mt-0.5">{desc}</div>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Random Ayah */}
       <section className="mx-auto max-w-4xl px-4 pb-12">
         <div className="relative rounded-3xl border border-gold/20 bg-card shadow-elegant p-8 md:p-12 overflow-hidden">
@@ -126,7 +173,7 @@ function Home() {
                   <Link
                     to="/quran/$surah"
                     params={{ surah: String(ayah.surah.number) }}
-                    className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 text-xs font-semibold text-emerald-deep hover:bg-primary hover:text-primary-foreground transition"
+                    className="inline-flex items-center gap-2 rounded-full bg-accent px-4 py-1.5 text-xs font-semibold text-emerald-deep hover:bg-primary hover:text-[#F3E5AB] transition"
                   >
                     سورة {ayah.surah.name} — آية {ayah.numberInSurah}
                   </Link>
@@ -142,34 +189,27 @@ function Home() {
         </div>
       </section>
 
-      {/* Quick actions */}
-      <section className="mx-auto max-w-4xl px-4 pb-20 grid grid-cols-1 md:grid-cols-3 gap-4">
-        {lastRead && (
-          <Link to="/quran/$surah" params={{ surah: String(lastRead.surah) }} className="group rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-elegant transition-all hover:-translate-y-1">
-            <Bookmark className="h-6 w-6 text-gold mb-3" />
-            <div className="text-xs text-muted-foreground">تابع القراءة</div>
-            <div className="font-display text-xl font-bold mt-1">سورة {lastRead.name}</div>
-            <div className="text-xs text-muted-foreground mt-1">الآية {lastRead.ayah}</div>
+      {/* Continue reading */}
+      {lastRead && (
+        <section className="mx-auto max-w-4xl px-4 pb-16">
+          <Link
+            to="/quran/$surah"
+            params={{ surah: String(lastRead.surah) }}
+            className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 shadow-soft hover:shadow-elegant hover:border-gold/40 transition-all"
+          >
+            <div className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-gold text-gold-foreground shadow-gold shrink-0">
+              <Bookmark className="h-5 w-5" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="text-xs text-muted-foreground">تابع القراءة</div>
+              <div className="font-display text-lg font-bold text-foreground truncate">
+                سورة {lastRead.name} — الآية {lastRead.ayah}
+              </div>
+            </div>
+            <ArrowLeft className="h-5 w-5 text-muted-foreground transition-transform group-hover:-translate-x-1" />
           </Link>
-        )}
-        {!lastRead && (
-          <Link to="/quran" className="group rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-elegant transition-all hover:-translate-y-1">
-            <BookOpen className="h-6 w-6 text-primary mb-3" />
-            <div className="font-display text-xl font-bold">تصفح السور</div>
-            <div className="text-xs text-muted-foreground mt-1">114 سورة</div>
-          </Link>
-        )}
-        <Link to="/prayer-times" className="group rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-elegant transition-all hover:-translate-y-1">
-          <Clock className="h-6 w-6 text-primary mb-3" />
-          <div className="font-display text-xl font-bold">مواقيت الصلاة</div>
-          <div className="text-xs text-muted-foreground mt-1">حسب موقعك</div>
-        </Link>
-        <Link to="/qibla" className="group rounded-2xl border border-border bg-card p-6 shadow-soft hover:shadow-elegant transition-all hover:-translate-y-1">
-          <Compass className="h-6 w-6 text-gold mb-3" />
-          <div className="font-display text-xl font-bold">اتجاه القبلة</div>
-          <div className="text-xs text-muted-foreground mt-1">بوصلة تفاعلية</div>
-        </Link>
-      </section>
+        </section>
+      )}
     </div>
   );
 }

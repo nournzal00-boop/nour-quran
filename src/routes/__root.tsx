@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "../components/site-header";
+import { BottomNav } from "../components/bottom-nav";
 
 function NotFoundComponent() {
   return (
@@ -108,7 +109,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col pb-[76px] md:pb-0">
         <SiteHeader />
         <main className="flex-1">
           <Outlet />
@@ -119,6 +120,7 @@ function RootComponent() {
             <p className="mt-2">صُنع بحب لخدمة كتاب الله</p>
           </div>
         </footer>
+        <BottomNav />
       </div>
     </QueryClientProvider>
   );
