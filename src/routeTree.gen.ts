@@ -15,8 +15,10 @@ import { Route as QiblaRouteImport } from './routes/qibla'
 import { Route as PrayerTimesRouteImport } from './routes/prayer-times'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as HadithRouteImport } from './routes/hadith'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AthkarRouteImport } from './routes/athkar'
 import { Route as AssistantRouteImport } from './routes/assistant'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuranIndexRouteImport } from './routes/quran.index'
 import { Route as QuranSurahRouteImport } from './routes/quran.$surah'
@@ -52,6 +54,11 @@ const HadithRoute = HadithRouteImport.update({
   path: '/hadith',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AthkarRoute = AthkarRouteImport.update({
   id: '/athkar',
   path: '/athkar',
@@ -60,6 +67,11 @@ const AthkarRoute = AthkarRouteImport.update({
 const AssistantRoute = AssistantRouteImport.update({
   id: '/assistant',
   path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -85,8 +97,10 @@ const ApiChatRoute = ApiChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
   '/athkar': typeof AthkarRoute
+  '/contact': typeof ContactRoute
   '/hadith': typeof HadithRoute
   '/learn': typeof LearnRoute
   '/prayer-times': typeof PrayerTimesRoute
@@ -99,8 +113,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
   '/athkar': typeof AthkarRoute
+  '/contact': typeof ContactRoute
   '/hadith': typeof HadithRoute
   '/learn': typeof LearnRoute
   '/prayer-times': typeof PrayerTimesRoute
@@ -113,8 +129,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/assistant': typeof AssistantRoute
   '/athkar': typeof AthkarRoute
+  '/contact': typeof ContactRoute
   '/hadith': typeof HadithRoute
   '/learn': typeof LearnRoute
   '/prayer-times': typeof PrayerTimesRoute
@@ -129,8 +147,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/assistant'
     | '/athkar'
+    | '/contact'
     | '/hadith'
     | '/learn'
     | '/prayer-times'
@@ -143,8 +163,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/assistant'
     | '/athkar'
+    | '/contact'
     | '/hadith'
     | '/learn'
     | '/prayer-times'
@@ -156,8 +178,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/assistant'
     | '/athkar'
+    | '/contact'
     | '/hadith'
     | '/learn'
     | '/prayer-times'
@@ -171,8 +195,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   AssistantRoute: typeof AssistantRoute
   AthkarRoute: typeof AthkarRoute
+  ContactRoute: typeof ContactRoute
   HadithRoute: typeof HadithRoute
   LearnRoute: typeof LearnRoute
   PrayerTimesRoute: typeof PrayerTimesRoute
@@ -226,6 +252,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HadithRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/athkar': {
       id: '/athkar'
       path: '/athkar'
@@ -238,6 +271,13 @@ declare module '@tanstack/react-router' {
       path: '/assistant'
       fullPath: '/assistant'
       preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -285,8 +325,10 @@ const QuranRouteWithChildren = QuranRoute._addFileChildren(QuranRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   AssistantRoute: AssistantRoute,
   AthkarRoute: AthkarRoute,
+  ContactRoute: ContactRoute,
   HadithRoute: HadithRoute,
   LearnRoute: LearnRoute,
   PrayerTimesRoute: PrayerTimesRoute,
@@ -298,13 +340,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
