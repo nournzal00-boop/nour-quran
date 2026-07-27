@@ -16,9 +16,11 @@ import { Route as PrayerTimesRouteImport } from './routes/prayer-times'
 import { Route as LearnRouteImport } from './routes/learn'
 import { Route as HadithRouteImport } from './routes/hadith'
 import { Route as AthkarRouteImport } from './routes/athkar'
+import { Route as AssistantRouteImport } from './routes/assistant'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as QuranIndexRouteImport } from './routes/quran.index'
 import { Route as QuranSurahRouteImport } from './routes/quran.$surah'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const SebhaRoute = SebhaRouteImport.update({
   id: '/sebha',
@@ -55,6 +57,11 @@ const AthkarRoute = AthkarRouteImport.update({
   path: '/athkar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -70,9 +77,15 @@ const QuranSurahRoute = QuranSurahRouteImport.update({
   path: '/$surah',
   getParentRoute: () => QuranRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/athkar': typeof AthkarRoute
   '/hadith': typeof HadithRoute
   '/learn': typeof LearnRoute
@@ -80,23 +93,27 @@ export interface FileRoutesByFullPath {
   '/qibla': typeof QiblaRoute
   '/quran': typeof QuranRouteWithChildren
   '/sebha': typeof SebhaRoute
+  '/api/chat': typeof ApiChatRoute
   '/quran/$surah': typeof QuranSurahRoute
   '/quran/': typeof QuranIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/athkar': typeof AthkarRoute
   '/hadith': typeof HadithRoute
   '/learn': typeof LearnRoute
   '/prayer-times': typeof PrayerTimesRoute
   '/qibla': typeof QiblaRoute
   '/sebha': typeof SebhaRoute
+  '/api/chat': typeof ApiChatRoute
   '/quran/$surah': typeof QuranSurahRoute
   '/quran': typeof QuranIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
   '/athkar': typeof AthkarRoute
   '/hadith': typeof HadithRoute
   '/learn': typeof LearnRoute
@@ -104,6 +121,7 @@ export interface FileRoutesById {
   '/qibla': typeof QiblaRoute
   '/quran': typeof QuranRouteWithChildren
   '/sebha': typeof SebhaRoute
+  '/api/chat': typeof ApiChatRoute
   '/quran/$surah': typeof QuranSurahRoute
   '/quran/': typeof QuranIndexRoute
 }
@@ -111,6 +129,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/assistant'
     | '/athkar'
     | '/hadith'
     | '/learn'
@@ -118,22 +137,26 @@ export interface FileRouteTypes {
     | '/qibla'
     | '/quran'
     | '/sebha'
+    | '/api/chat'
     | '/quran/$surah'
     | '/quran/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/assistant'
     | '/athkar'
     | '/hadith'
     | '/learn'
     | '/prayer-times'
     | '/qibla'
     | '/sebha'
+    | '/api/chat'
     | '/quran/$surah'
     | '/quran'
   id:
     | '__root__'
     | '/'
+    | '/assistant'
     | '/athkar'
     | '/hadith'
     | '/learn'
@@ -141,12 +164,14 @@ export interface FileRouteTypes {
     | '/qibla'
     | '/quran'
     | '/sebha'
+    | '/api/chat'
     | '/quran/$surah'
     | '/quran/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRoute
   AthkarRoute: typeof AthkarRoute
   HadithRoute: typeof HadithRoute
   LearnRoute: typeof LearnRoute
@@ -154,6 +179,7 @@ export interface RootRouteChildren {
   QiblaRoute: typeof QiblaRoute
   QuranRoute: typeof QuranRouteWithChildren
   SebhaRoute: typeof SebhaRoute
+  ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -207,6 +233,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AthkarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -228,6 +261,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuranSurahRouteImport
       parentRoute: typeof QuranRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -245,6 +285,7 @@ const QuranRouteWithChildren = QuranRoute._addFileChildren(QuranRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRoute,
   AthkarRoute: AthkarRoute,
   HadithRoute: HadithRoute,
   LearnRoute: LearnRoute,
@@ -252,17 +293,8 @@ const rootRouteChildren: RootRouteChildren = {
   QiblaRoute: QiblaRoute,
   QuranRoute: QuranRouteWithChildren,
   SebhaRoute: SebhaRoute,
+  ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

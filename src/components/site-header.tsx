@@ -4,6 +4,7 @@ import { Moon, Sun, BookOpen, Menu, X } from "lucide-react";
 
 const NAV = [
   { to: "/", label: "الرئيسية" },
+  { to: "/assistant", label: "المساعد الذكي" },
   { to: "/quran", label: "القرآن الكريم" },
   { to: "/hadith", label: "الأحاديث النبوية" },
   { to: "/learn", label: "تعليم الصلاة" },
