@@ -36,6 +36,8 @@ function Home() {
   const [lastRead, setLastRead] = useState<LastRead | null>(null);
   const { data: ayah } = useQuery({ queryKey: ["random-ayah"], queryFn: fetchRandomAyah, staleTime: 0, refetchOnMount: true });
   const { data: surahs } = useQuery({ queryKey: ["surahs"], queryFn: fetchSurahs });
+  const sunnah = useMemo(() => getSunnahOfDay(), []);
+
 
   useEffect(() => {
     const raw = localStorage.getItem("last-read");
