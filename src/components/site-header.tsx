@@ -2,14 +2,16 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
   Moon, Sun, BookOpen, Menu, X, Sparkles, BookMarked, GraduationCap,
-  Hand, CircleDot, Clock, Compass, Home, Info, Phone,
+  Hand, CircleDot, Clock, Compass, Home, Info, Phone, Feather, HandHeart,
 } from "lucide-react";
 
 const NAV = [
   { to: "/", label: "الرئيسية", icon: Home },
-  { to: "/assistant", label: "المساعد الذكي", icon: Sparkles },
   { to: "/quran", label: "القرآن الكريم", icon: BookOpen },
-  { to: "/hadith", label: "الأحاديث النبوية", icon: BookMarked },
+  { to: "/tajweed", label: "التجويد", icon: Feather },
+  { to: "/sunnah", label: "السنن النبوية", icon: HandHeart },
+  { to: "/assistant", label: "المساعد الذكي", icon: Sparkles },
+  { to: "/hadith", label: "الأحاديث", icon: BookMarked },
   { to: "/learn", label: "تعليم الصلاة", icon: GraduationCap },
   { to: "/athkar", label: "الأذكار", icon: Hand },
   { to: "/sebha", label: "السبحة", icon: CircleDot },

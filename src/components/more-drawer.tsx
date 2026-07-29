@@ -1,9 +1,11 @@
 import { Link } from "@tanstack/react-router";
-import { X, BookMarked, Compass, GraduationCap, Sparkles, Info, Phone, Home } from "lucide-react";
+import { X, BookMarked, Compass, GraduationCap, Sparkles, Info, Phone, Home, Feather, HandHeart } from "lucide-react";
 import { useEffect } from "react";
 
 const LINKS = [
   { to: "/", label: "الرئيسية", icon: Home },
+  { to: "/tajweed", label: "مِئْذَنَةُ التَّجْوِيدِ", icon: Feather },
+  { to: "/sunnah", label: "سُنَنُ الحَبِيبِ ﷺ", icon: HandHeart },
   { to: "/hadith", label: "الأحاديث النبوية", icon: BookMarked },
   { to: "/learn", label: "تعليم الصلاة والوضوء", icon: GraduationCap },
   { to: "/qibla", label: "اتجاه القبلة", icon: Compass },
