@@ -194,6 +194,33 @@ function Home() {
         </div>
       </section>
 
+      {/* Sunnah of the Day */}
+      <section className="mx-auto max-w-4xl px-4 pb-12">
+        <Link
+          to="/sunnah"
+          className="group relative block overflow-hidden rounded-3xl border border-gold/30 bg-gradient-to-l from-emerald-deep/95 via-emerald-deep to-emerald-deep p-6 md:p-8 shadow-elegant hover:shadow-gold transition-all"
+        >
+          <div className="absolute -top-16 -left-16 h-52 w-52 rounded-full bg-gradient-gold opacity-20 blur-3xl" />
+          <div className="absolute inset-0 opacity-[0.06] bg-[radial-gradient(circle_at_1px_1px,#F3E5AB_1px,transparent_0)] [background-size:20px_20px]" />
+          <div className="relative">
+            <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-[#F3E5AB]/80">
+              <HandHeart className="h-3.5 w-3.5" /> سُنة اليوم
+            </div>
+            <h3 className="mt-3 font-display text-2xl md:text-3xl font-bold text-[#F3E5AB]">{sunnah.title}</h3>
+            <p className="mt-3 font-display text-base md:text-lg leading-loose text-[#F3E5AB]/90 line-clamp-3">
+              {sunnah.evidence}
+            </p>
+            <div className="mt-4 flex items-center justify-between">
+              <span className="text-xs text-[#F3E5AB]/70">— {sunnah.source}</span>
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-gold text-gold-foreground px-3 py-1 text-xs font-bold group-hover:gap-3 transition-all">
+                طبّق السُّنة <ArrowLeft className="h-3.5 w-3.5" />
+              </span>
+            </div>
+          </div>
+        </Link>
+      </section>
+
+
       {/* Continue reading */}
       {lastRead && (
         <section className="mx-auto max-w-4xl px-4 pb-16">
