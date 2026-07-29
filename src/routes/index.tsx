@@ -1,17 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   BookOpen, Search, Sparkles, ArrowLeft, Bookmark, Compass, Clock,
-  Hand, CircleDot, BookMarked,
+  Hand, CircleDot, BookMarked, Feather, HandHeart,
 } from "lucide-react";
 import { fetchRandomAyah, fetchSurahs } from "@/lib/quran-api";
+import { getSunnahOfDay } from "@/lib/sunnah-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "نور — القرآن الكريم بخط عثماني" },
-      { name: "description", content: "ابدأ رحلتك مع القرآن الكريم: قراءة بخط عثماني، تفسير مبسّط، تلاوات لكبار القراء، أذكار، سبحة، ومواقيت الصلاة." },
+      { title: "نور القرآن — القرآن الكريم بخط عثماني" },
+      { name: "description", content: "ابدأ رحلتك مع القرآن الكريم: قراءة بخط عثماني، تفسير مبسّط، تلاوات لكبار القراء، أذكار، سبحة، مواقيت الصلاة، التجويد، والسنن النبوية." },
     ],
   }),
   component: Home,
@@ -21,6 +22,8 @@ interface LastRead { surah: number; ayah: number; name: string }
 
 const QUICK = [
   { to: "/quran", label: "القرآن الكريم", desc: "114 سورة", icon: BookOpen },
+  { to: "/tajweed", label: "مِئْذَنَةُ التجويد", desc: "أحكام ومخارج", icon: Feather },
+  { to: "/sunnah", label: "سُنن الحبيب ﷺ", desc: "أحيِ السُّنة", icon: HandHeart },
   { to: "/athkar", label: "الأذكار", desc: "الصباح والمساء", icon: Hand },
   { to: "/prayer-times", label: "مواقيت الصلاة", desc: "حسب موقعك", icon: Clock },
   { to: "/sebha", label: "السبحة الإلكترونية", desc: "عدّاد ذكي", icon: CircleDot },
