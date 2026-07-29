@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TajweedRouteImport } from './routes/tajweed'
+import { Route as SunnahRouteImport } from './routes/sunnah'
 import { Route as SebhaRouteImport } from './routes/sebha'
 import { Route as QuranRouteImport } from './routes/quran'
 import { Route as QiblaRouteImport } from './routes/qibla'
@@ -24,6 +26,16 @@ import { Route as QuranIndexRouteImport } from './routes/quran.index'
 import { Route as QuranSurahRouteImport } from './routes/quran.$surah'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 
+const TajweedRoute = TajweedRouteImport.update({
+  id: '/tajweed',
+  path: '/tajweed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SunnahRoute = SunnahRouteImport.update({
+  id: '/sunnah',
+  path: '/sunnah',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SebhaRoute = SebhaRouteImport.update({
   id: '/sebha',
   path: '/sebha',
@@ -107,6 +119,8 @@ export interface FileRoutesByFullPath {
   '/qibla': typeof QiblaRoute
   '/quran': typeof QuranRouteWithChildren
   '/sebha': typeof SebhaRoute
+  '/sunnah': typeof SunnahRoute
+  '/tajweed': typeof TajweedRoute
   '/api/chat': typeof ApiChatRoute
   '/quran/$surah': typeof QuranSurahRoute
   '/quran/': typeof QuranIndexRoute
@@ -122,6 +136,8 @@ export interface FileRoutesByTo {
   '/prayer-times': typeof PrayerTimesRoute
   '/qibla': typeof QiblaRoute
   '/sebha': typeof SebhaRoute
+  '/sunnah': typeof SunnahRoute
+  '/tajweed': typeof TajweedRoute
   '/api/chat': typeof ApiChatRoute
   '/quran/$surah': typeof QuranSurahRoute
   '/quran': typeof QuranIndexRoute
@@ -139,6 +155,8 @@ export interface FileRoutesById {
   '/qibla': typeof QiblaRoute
   '/quran': typeof QuranRouteWithChildren
   '/sebha': typeof SebhaRoute
+  '/sunnah': typeof SunnahRoute
+  '/tajweed': typeof TajweedRoute
   '/api/chat': typeof ApiChatRoute
   '/quran/$surah': typeof QuranSurahRoute
   '/quran/': typeof QuranIndexRoute
@@ -157,6 +175,8 @@ export interface FileRouteTypes {
     | '/qibla'
     | '/quran'
     | '/sebha'
+    | '/sunnah'
+    | '/tajweed'
     | '/api/chat'
     | '/quran/$surah'
     | '/quran/'
@@ -172,6 +192,8 @@ export interface FileRouteTypes {
     | '/prayer-times'
     | '/qibla'
     | '/sebha'
+    | '/sunnah'
+    | '/tajweed'
     | '/api/chat'
     | '/quran/$surah'
     | '/quran'
@@ -188,6 +210,8 @@ export interface FileRouteTypes {
     | '/qibla'
     | '/quran'
     | '/sebha'
+    | '/sunnah'
+    | '/tajweed'
     | '/api/chat'
     | '/quran/$surah'
     | '/quran/'
@@ -205,11 +229,27 @@ export interface RootRouteChildren {
   QiblaRoute: typeof QiblaRoute
   QuranRoute: typeof QuranRouteWithChildren
   SebhaRoute: typeof SebhaRoute
+  SunnahRoute: typeof SunnahRoute
+  TajweedRoute: typeof TajweedRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tajweed': {
+      id: '/tajweed'
+      path: '/tajweed'
+      fullPath: '/tajweed'
+      preLoaderRoute: typeof TajweedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sunnah': {
+      id: '/sunnah'
+      path: '/sunnah'
+      fullPath: '/sunnah'
+      preLoaderRoute: typeof SunnahRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sebha': {
       id: '/sebha'
       path: '/sebha'
@@ -335,6 +375,8 @@ const rootRouteChildren: RootRouteChildren = {
   QiblaRoute: QiblaRoute,
   QuranRoute: QuranRouteWithChildren,
   SebhaRoute: SebhaRoute,
+  SunnahRoute: SunnahRoute,
+  TajweedRoute: TajweedRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport

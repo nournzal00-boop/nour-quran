@@ -1,0 +1,17 @@
+{
+  "name": "نور القرآن",
+  "short_name": "نور القرآن",
+  "description": "منصة نور لقراءة القرآن الكريم، التفسير، التلاوات، الأذكار والمواقيت.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl",
+  "theme_color": "#0F5132",
+  "background_color": "#0F5132",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
